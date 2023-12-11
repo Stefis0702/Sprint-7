@@ -1,41 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { fetchStarships } from '../../api/ApiStartW';
+import React, { useContext } from 'react';
+import { NavContext } from '../../api/ApiStartW';
+import { ShipDetails } from '../../api/ApiStartW';
 
-interface Ship {
-  name: string;
-  model: string;
-  manufacturer: string;
-  cost_in_credits: string;
-  length: string;
-  max_atmosphering_speed: string;
-  crew: string;
-  
-}
+
 
 const ShipList: React.FC = () => {
-  const [ships, setShips] = useState<Ship[]>([]);
-  const [selectedShip, setSelectedShip] = useState<Ship | null>(null);
+  const { ships, setSelectedShipDetails,loadMoreShips } = useContext(NavContext);
 
-  useEffect(() => {
-    fetchStarships()
-      .then((data) => {
-        setShips(data.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  const handleShipClick = (ship: Ship) => {
-    setSelectedShip(ship);
+  const handleShipClick = (selectedShip: ShipDetails) => {
+    if (selectedShip) {
+     
+      setSelectedShipDetails(selectedShip);
+    }
   };
 
   return (
-    <div className='flex justify-center '>
+    <div >
       <div className='max-w-xl'>
         <h1 className="text-4xl font-bold mb-4 text-center">Listado de Naves</h1>
         <ul className="list-none p-0">
-          {ships.map((ship, index) => (
+        {ships.map((ship, index) => (
             <li key={index} className="mb-2" onClick={() => handleShipClick(ship)}>
               <span className="mr-2 mt-1 text-gray-600">•</span>
               <div>
@@ -45,24 +29,13 @@ const ShipList: React.FC = () => {
             </li>
           ))}
         </ul>
-  
-        {selectedShip && (
-          <div className="mt-4 border border-black p-4 flex justify-end">
-            <div className="max-w-md text-justify text-center">
-              <h2 className="text-xl font-bold mb-2">{selectedShip.name}</h2>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus</p>
-              <p>Model: {selectedShip.model}</p>
-              <p>Manufacturer: {selectedShip.manufacturer}</p>
-              <p>Cost in credits: {selectedShip.cost_in_credits}</p>
-              <p>Length: {selectedShip.length}</p>
-              <p>Atmospheric Speed: {selectedShip.max_atmosphering_speed}</p>
-              <p>Crew: {selectedShip.crew}</p>
-            </div>
-          </div>
-        )}
-      </div>
+        <button className="btn btn-active btn-neutral" onClick={loadMoreShips}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" /></svg>Ver más</button>
+        
+
+
+    </div>
     </div>
   );
 };
-
 export default ShipList;

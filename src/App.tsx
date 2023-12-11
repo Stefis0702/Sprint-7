@@ -1,18 +1,17 @@
-import ShipList from './components/Ships/ShipList'
-import './App.css'
+import React from 'react';
+import NavContextProvider from './api/ApiStartW';
+import ShipList from './components/Ships/ShipList';
+import ShipDetails from './components/Ships/ShipDetails';
 
-function App() {
-  
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
+    <NavContextProvider>
+      <div className="App flex justify-center ">
         <ShipList />
-        
+        <ShipDetails />
       </div>
-     
-    </>
-  )
-}
+    </NavContextProvider>
+  );
+};
 
-export default App
+export default App;
