@@ -9,6 +9,7 @@ export interface ShipDetails {
   length: string;
   max_atmosphering_speed: string;
   crew: string;
+  image: string;
 }
 
 interface NavContextProps {
@@ -52,7 +53,14 @@ const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) 
           (ship: ShipDetails, index: number, self: ShipDetails[]) =>
             self.findIndex((s) => s.name === ship.name) === index
         );
-        setShips(uniqueShips);
+        
+        setShips(
+          uniqueShips.map((ship: ShipDetails, index: number) => ({
+            ...ship,
+            image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`, // Usando el índice + 1 como número para la imagen
+          }))
+        );
+  
         setNextPage(data.next);
         setLoading(false);
       })
@@ -77,7 +85,15 @@ const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) 
             (ship: ShipDetails, index: number, self: ShipDetails[]) =>
               self.findIndex((s) => s.name === ship.name) === index
           );
-          setShips((prevShips) => [...prevShips, ...additionalShips]);
+
+          setShips((prevShips) => [
+          ...prevShips,
+          ...additionalShips.map((ship: ShipDetails, index: number) => ({
+            ...ship,
+            image: `https://starwars-visualguide.com/assets/img/starships/${prevShips.length + index + 1}.jpg`,
+          })),
+        ]);
+
           setNextPage(data.next);
           setLoading(false);
         })
