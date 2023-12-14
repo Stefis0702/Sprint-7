@@ -5,13 +5,13 @@ import HeaderCom from './components/Header/Header';
 import './App.css';
 
 
+
 const App: React.FC = () => {
   return (
     <NavContextProvider>
-      <div className="App">
+      <div className="App bg-image">
         <header>
          <HeaderCom/>
-          
         </header>
         <main>
           <Content />
@@ -26,6 +26,7 @@ const Content: React.FC = () => {
   return (
     <div className="">
       <ShipList />
+      
       
     </div>
   );
