@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { NavContext } from '../../api/ApiStartW';
+import { useNavContext } from '../../api/ApiStartW';
 import { ShipDetails } from '../../api/ApiStartW';
 
-const ShipList: React.FC = () => {
-  const { ships, setSelectedShipDetails, loadMoreShips } = useContext(NavContext);
+const ShipList= (): JSX.Element => {
+  const { ships, setSelectedShipDetails, loadMoreShips } = useNavContext();
   const [selectedShip, setSelectedShip] = useState<ShipDetails | null>(null);
 
   const handleShipClick = (selectedShip: ShipDetails) => {

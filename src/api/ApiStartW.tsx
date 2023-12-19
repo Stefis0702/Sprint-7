@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, ReactElement } from 'react';
+import React, { createContext, useState, useEffect,useContext, type ReactNode} from 'react';
 
 
 export interface ShipDetails {
@@ -19,21 +19,33 @@ interface NavContextProps {
     loadMoreShips: () => void;
     setSelectedShipDetails: (selectedShip: ShipDetails) => void;
     selectedShipDetails: ShipDetails | null | undefined;
+   isLoggedIn: boolean;
+   setIsLoggedIn: (isLoggedIn: boolean) => void;
+
+
   }
 
-export const NavContext = createContext<NavContextProps>({
-  ships: [],
-  loading: true,
-  loadMoreShips: () => {},
-  setSelectedShipDetails: () => {},
-  selectedShipDetails: null,
-});
+const NavContext = createContext<NavContextProps|undefined>(undefined);
 
-const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
+export const useNavContext:()=>NavContextProps = ():NavContextProps => {
+  const context = useContext(NavContext);
+  if (context == null) {
+    throw new Error('useNavContext must be used within a NavContextProvider');
+  }
+  return context;
+}
+
+interface NavContextProviderProps {
+  children: ReactNode;
+}
+
+export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children }) => {
   const [ships, setShips] = useState<ShipDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<string>('');
   const [selectedShipDetails, setSelectedShipDetails] = useState<ShipDetails | undefined>(undefined);
+  
 
   useEffect(() => {
     fetchShips();
@@ -57,12 +69,13 @@ const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) 
         setShips(
           uniqueShips.map((ship: ShipDetails, index: number) => ({
             ...ship,
-            image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`, // Usando el índice + 1 como número para la imagen
+            image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`, 
           }))
         );
   
         setNextPage(data.next);
         setLoading(false);
+       // setIsLoggedIn(true)
       })
       .catch((error) => {
         console.error('Error fetching ships:', error);
@@ -107,6 +120,7 @@ const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) 
   const loadMoreShips = () => {
     fetchMoreShips();
   };
+ 
 
   const contextValue: NavContextProps = {
     ships,
@@ -114,8 +128,10 @@ const NavContextProvider: React.FC<{ children: ReactElement }> = ({ children }) 
     loadMoreShips,
     setSelectedShipDetails,
     selectedShipDetails,
+    isLoggedIn,
+    setIsLoggedIn,
   };
-  console.log('Selected Ship Details:', selectedShipDetails);
+  
   return (
     <NavContext.Provider value={contextValue}>
       {children}

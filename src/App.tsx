@@ -6,7 +6,7 @@ import './App.css';
 
 
 
-const App: React.FC = () => {
+const App= (): JSX.Element => {
   return (
     <NavContextProvider>
       <div className="App bg-image">
