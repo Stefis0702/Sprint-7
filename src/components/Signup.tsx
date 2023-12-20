@@ -1,14 +1,14 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../img/Logo.png"
-import { useNavigate } from "react-router-dom";
+
 
 interface FormData {
   email: string;
   password: string;
   
 }
-const navigate = useNavigate();
+
 
 function Signup(): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
@@ -27,7 +27,7 @@ function Signup(): JSX.Element {
       .then(res => res.json())
       .then(data => console.log(data));
       alert('Registrado correctamente')
-      navigate('/home')
+    
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>):void {

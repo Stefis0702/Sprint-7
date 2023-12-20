@@ -5,12 +5,12 @@ import { useNavContext } from "../../api/ApiStartW";
 
 const HeaderCom = (): JSX.Element => {
 
-  const { isLoggedIn} = useNavContext();
+  const { isLoggedIn, setIsUserLoggedIn} = useNavContext();
   
   
   return (
     <>
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-between items-center mt-4 ">
         <div className="flex self-start items-center">
           <a href="#" className="w-7">
             <img src="./src/img/XLogo.png" alt="" />
@@ -40,7 +40,7 @@ const HeaderCom = (): JSX.Element => {
         {isLoggedIn ?(
           <>
           <Link to={"/"} >
-            <a className="btn btn-ghost text-xl">Loginup</a>
+            <button className="btn btn-ghost text-xl" onClick={() => {setIsUserLoggedIn(false)}}>Loginup</button>
           </Link>
           </>
         ):(

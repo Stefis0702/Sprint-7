@@ -1,4 +1,4 @@
-import NavContextProvider from './api/ApiStartW';
+
 import ShipList from './components/Ships/ShipList';
 import HeaderCom from './components/Header/Header';
 import './App.css';
@@ -7,8 +7,8 @@ import './App.css';
 
 const App= (): JSX.Element => {
   return (
-    <NavContextProvider>
-      <div className="App bg-image">
+    
+      <div className="App bg-image ">
         <header>
          <HeaderCom/>
         </header>
@@ -16,7 +16,7 @@ const App= (): JSX.Element => {
           <Content />
         </main>
       </div>
-    </NavContextProvider>
+  
   );
 };
 

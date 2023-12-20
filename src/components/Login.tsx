@@ -4,7 +4,8 @@ import { useNavContext } from "../api/ApiStartW";
 import Logo from "../img/Logo.png";
 
 function Login(): JSX.Element {
-    const {setIsLoggedIn} = useNavContext()
+    const {setIsLoggedIn,setIsUserLoggedIn} = useNavContext()
+    
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '', 
@@ -24,6 +25,7 @@ function Login(): JSX.Element {
               const data = await response.json()
               console.log(data.user)
               setIsLoggedIn(true)
+              setIsUserLoggedIn(true)
               
               navigate('/app')
             } else {

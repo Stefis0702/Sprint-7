@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
-import { NavContext} from '../../api/ApiStartW';
+import { useNavContext} from '../../api/ApiStartW';
 
 
 
 const ShipDetailsCom: React.FC = () => {
-  const { selectedShipDetails } = useContext(NavContext);
+  const { selectedShipDetails } = useNavContext();
   
 
 
   return (
-    <div className=' '>
+    <div className="max-w-4xl mt-4 mx-auto ">
       {selectedShipDetails ? (
         <div className="mt-4 border border-black p-4 flex justify-end">
         <div className="max-w-md text-justify text-center">

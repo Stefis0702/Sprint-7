@@ -9,7 +9,9 @@
 
   color-scheme: light dark;
   color: white;
-  background-color:black;
+  background-image:url('./src/img/fondo.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

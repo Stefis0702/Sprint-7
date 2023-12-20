@@ -2,8 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundSize: {
+        '200%': '200%',
+      }
+    },
   },
   plugins: [require("daisyui")],
+  
+  
 }
 

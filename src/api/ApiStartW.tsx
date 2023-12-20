@@ -21,6 +21,8 @@ interface NavContextProps {
     selectedShipDetails: ShipDetails | null | undefined;
     isLoggedIn: boolean;
     setIsLoggedIn: (isLoggedIn: boolean) => void;
+    isUserLoggedIn: boolean;
+    setIsUserLoggedIn: (isUserLoggedIn: boolean) => void;
   
   }
 
@@ -44,6 +46,9 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
   const [nextPage, setNextPage] = useState<string>('');
   const [selectedShipDetails, setSelectedShipDetails] = useState<ShipDetails | undefined>(undefined);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+
+
   
 
   useEffect(() => {
@@ -74,7 +79,7 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
   
         setNextPage(data.next);
         setLoading(false);
-       // setIsLoggedIn(true)
+       
       })
       .catch((error) => {
         console.error('Error fetching ships:', error);
@@ -129,6 +134,8 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
     selectedShipDetails,
     isLoggedIn,
     setIsLoggedIn,
+    isUserLoggedIn,
+    setIsUserLoggedIn,
 
   };
    
