@@ -19,10 +19,9 @@ interface NavContextProps {
     loadMoreShips: () => void;
     setSelectedShipDetails: (selectedShip: ShipDetails) => void;
     selectedShipDetails: ShipDetails | null | undefined;
-   isLoggedIn: boolean;
-   setIsLoggedIn: (isLoggedIn: boolean) => void;
-
-
+    isLoggedIn: boolean;
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
+  
   }
 
 const NavContext = createContext<NavContextProps|undefined>(undefined);
@@ -42,9 +41,9 @@ interface NavContextProviderProps {
 export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children }) => {
   const [ships, setShips] = useState<ShipDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<string>('');
   const [selectedShipDetails, setSelectedShipDetails] = useState<ShipDetails | undefined>(undefined);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   
 
   useEffect(() => {
@@ -130,8 +129,9 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
     selectedShipDetails,
     isLoggedIn,
     setIsLoggedIn,
+
   };
-  
+   
   return (
     <NavContext.Provider value={contextValue}>
       {children}

@@ -5,8 +5,8 @@ import { useNavContext } from "../../api/ApiStartW";
 
 const HeaderCom = (): JSX.Element => {
 
-  const { isLoggedIn } = useNavContext();
-  console.log("Estado isLoggedIn en HeaderCom:", isLoggedIn);
+  const { isLoggedIn} = useNavContext();
+  
   
   return (
     <>
@@ -37,20 +37,24 @@ const HeaderCom = (): JSX.Element => {
           </a>
         </div>
         <div className="flex self-start">
-        {isLoggedIn ? (
-          <Link to="/logout">
-            <button>LOGOUT</button>
-          </Link>
-        ) : (
+        {isLoggedIn ?(
           <>
-            <Link to="/login">
-              <button>LOG IN</button>
-            </Link>
-            <Link to="/signup">
-              <button>SIGN UP</button>
-            </Link>
+          <Link to={"/"} >
+            <a className="btn btn-ghost text-xl">Loginup</a>
+          </Link>
           </>
-        )}
+        ):(
+          <>
+          <Link to={"/Login"} >
+            <a className="btn btn-ghost text-xl">Login</a>
+          </Link>
+          <Link to={"/Signup"} >
+            <a className="btn btn-ghost text-xl">Signup</a>
+          </Link>
+          </>
+        )
+        }
+        
       </div>
       </div>
 
