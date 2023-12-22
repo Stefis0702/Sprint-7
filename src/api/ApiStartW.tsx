@@ -71,15 +71,14 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
     fetchShips();
   }, []);
 
-  const fetchPilots = async (pilotUrls: string[]): Promise<{ name: string, imageNumber: string }[]> => {
+  const fetchPilots = async (pilotUrls: string[]): Promise<{ name: string}[]> => {
     const pilotPromises = pilotUrls.map(async (url) => {
       const response = await fetch(url);
       const pilotData = await response.json();
-      const imageNumber = url.split('/').filter(Boolean).pop() || ''; // Obtén el número de la imagen
+ 
       
       return { 
         name: pilotData.name,
-        imageNumber: imageNumber
       };
     });
   
@@ -103,20 +102,20 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
         const shipsWithPilotsAndFilmsPromises = uniqueShips.map(async (ship: ShipDetails) => {
           const pilotsWithImages = await fetchPilots(ship.pilots);
           const pilots = pilotsWithImages.map(pilot => pilot.name);
-          const pilotsImages = pilotsWithImages.map(pilot => `https://starwars-visualguide.com/assets/img/characters/${pilot.imageNumber}.jpg`);
+          
   
           // Lógica similar para obtener los nombres de las películas
           const filmsData = await Promise.all(ship.films.map(async (filmUrl) => {
             const response = await fetch(filmUrl);
             const filmData = await response.json();
-            return filmData.title; // o la propiedad que contenga el nombre de la película
+            return filmData.title; 
           }));
   
           return {
             ...ship,
             image: `https://starwars-visualguide.com/assets/img/starships/${uniqueShips.findIndex((s) => s.name === ship.name) + 1}.jpg`,
             pilots,
-            pilotsImages,
+           
             films: filmsData,
           };
         });
