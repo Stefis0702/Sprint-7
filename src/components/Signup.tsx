@@ -42,7 +42,7 @@ function Signup(): JSX.Element {
       <div className=" bg-black border border-white mt-4 flex justify-center items-center">
         
         <div className="flex border border-white">
-          <Link to={"/"} className="font-bold btn btn-ghost text-xl">
+          <Link to={"/"} className="font-bold btn btn-ghost text-xl text-white">
             Home
           </Link>
         </div>

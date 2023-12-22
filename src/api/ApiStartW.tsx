@@ -10,7 +10,11 @@ export interface ShipDetails {
   max_atmosphering_speed: string;
   crew: string;
   image: string;
+  pilots: string[];
+  films: string[];
 }
+
+
 
 interface NavContextProps {
   
@@ -25,6 +29,17 @@ interface NavContextProps {
     setIsUserLoggedIn: (isUserLoggedIn: boolean) => void;
   
   }
+  export interface PilotsListProps {
+    
+    pilots:string[];
+    
+  }
+  export interface FilmListProps {
+    
+    films:string[];
+    
+  }
+  
 
 const NavContext = createContext<NavContextProps|undefined>(undefined);
 
@@ -47,6 +62,7 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
   const [selectedShipDetails, setSelectedShipDetails] = useState<ShipDetails | undefined>(undefined);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+  
 
 
   
@@ -55,6 +71,20 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
     fetchShips();
   }, []);
 
+  const fetchPilots = async (pilotUrls: string[]): Promise<{ name: string, imageNumber: string }[]> => {
+    const pilotPromises = pilotUrls.map(async (url) => {
+      const response = await fetch(url);
+      const pilotData = await response.json();
+      const imageNumber = url.split('/').filter(Boolean).pop() || ''; // Obtén el número de la imagen
+      
+      return { 
+        name: pilotData.name,
+        imageNumber: imageNumber
+      };
+    });
+  
+    return Promise.all(pilotPromises);
+  };
   const fetchShips = (pageUrl = 'https://swapi.dev/api/starships/') => {
     setLoading(true);
     fetch(pageUrl)
@@ -64,18 +94,46 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
         }
         return response.json();
       })
-      .then((data) => {
+      .then(async (data) => {
         const uniqueShips: ShipDetails[] = data.results.filter(
           (ship: ShipDetails, index: number, self: ShipDetails[]) =>
             self.findIndex((s) => s.name === ship.name) === index
         );
-        
-        setShips(
-          uniqueShips.map((ship: ShipDetails, index: number) => ({
+
+        const shipsWithPilotsAndFilmsPromises = uniqueShips.map(async (ship: ShipDetails) => {
+          const pilotsWithImages = await fetchPilots(ship.pilots);
+          const pilots = pilotsWithImages.map(pilot => pilot.name);
+          const pilotsImages = pilotsWithImages.map(pilot => `https://starwars-visualguide.com/assets/img/characters/${pilot.imageNumber}.jpg`);
+  
+          // Lógica similar para obtener los nombres de las películas
+          const filmsData = await Promise.all(ship.films.map(async (filmUrl) => {
+            const response = await fetch(filmUrl);
+            const filmData = await response.json();
+            return filmData.title; // o la propiedad que contenga el nombre de la película
+          }));
+  
+          return {
             ...ship,
-            image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`, 
-          }))
-        );
+            image: `https://starwars-visualguide.com/assets/img/starships/${uniqueShips.findIndex((s) => s.name === ship.name) + 1}.jpg`,
+            pilots,
+            pilotsImages,
+            films: filmsData,
+          };
+        });
+  
+        const shipsWithPilotsAndFilms = await Promise.all(shipsWithPilotsAndFilmsPromises);
+  
+        setShips(shipsWithPilotsAndFilms);
+  
+    
+        
+        // setShips(
+        //   uniqueShips.map((ship: ShipDetails, index: number) => ({
+        //     ...ship,
+        //     image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`,
+            
+        //   }))
+        // );
   
         setNextPage(data.next);
         setLoading(false);

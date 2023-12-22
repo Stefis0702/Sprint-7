@@ -40,16 +40,16 @@ const HeaderCom = (): JSX.Element => {
         {isLoggedIn ?(
           <>
           <Link to={"/"} >
-            <button className="btn btn-ghost text-xl" onClick={() => {setIsUserLoggedIn(false)}}>Loginup</button>
+            <button className="btn btn-ghost text-xl text-white" onClick={() => {setIsUserLoggedIn(false)}}>Loginup</button>
           </Link>
           </>
         ):(
           <>
           <Link to={"/Login"} >
-            <a className="btn btn-ghost text-xl">Login</a>
+            <a className="btn btn-ghost text-xl text-white">Login</a>
           </Link>
           <Link to={"/Signup"} >
-            <a className="btn btn-ghost text-xl">Signup</a>
+            <a className="btn btn-ghost text-xl text-white">Signup</a>
           </Link>
           </>
         )
@@ -60,12 +60,12 @@ const HeaderCom = (): JSX.Element => {
 
       <div className=" bg-black border border-white mt-4 flex justify-center items-center">
         <div className="flex border border-white">
-          <Link to={"/"} className="font-bold btn btn-ghost text-xl">
+          <Link to={"/"} className="font-bold btn btn-ghost text-xl text-white">
             Home
           </Link>
         </div>
         <div className="flex border border-white">
-          <a className="btn btn-ghost text-xl">StartShips</a>
+          <a className="btn btn-ghost text-xl text-white">StartShips</a>
         </div>
       </div>
     </>
