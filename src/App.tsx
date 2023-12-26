@@ -9,6 +9,7 @@ const App= (): JSX.Element => {
   return (
     
       <div className="App bg-image ">
+        
         <header>
          <HeaderCom/>
         </header>

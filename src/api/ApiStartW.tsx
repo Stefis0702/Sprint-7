@@ -98,7 +98,7 @@ export const NavContextProvider: React.FC<NavContextProviderProps> = ({ children
           (ship: ShipDetails, index: number, self: ShipDetails[]) =>
             self.findIndex((s) => s.name === ship.name) === index
         );
-
+            // Lógica para obtener los nombres de los pilotos
         const shipsWithPilotsAndFilmsPromises = uniqueShips.map(async (ship: ShipDetails) => {
           const pilotsWithImages = await fetchPilots(ship.pilots);
           const pilots = pilotsWithImages.map(pilot => pilot.name);
